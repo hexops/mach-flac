@@ -1,6 +1,6 @@
 # mach-flac: FLAC audio encoding/decoding for Zig
 
-Zig bindings to `libflac` - the battle-hardened official xiph.org C library for FLAC audio file encoding & decoding. Features:
+Zig bindings to `libflac` - the battle-hardened official xiph.org C library for FLAC audio encoding & decoding. Features:
 
 * Zero-fuss installation, cross compilation, and no system dependencies.
 * Encoding & decoding support
