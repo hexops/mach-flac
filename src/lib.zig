@@ -193,7 +193,7 @@ const Decoder = struct {
         };
         data.sample_rate = @intCast(metadata.*.data.stream_info.sample_rate);
         data.bits_per_sample = @intCast(metadata.*.data.stream_info.bits_per_sample);
-        data.total_samples = metadata.*.data.stream_info.total_samples;
+        data.total_samples = @intCast(metadata.*.data.stream_info.total_samples);
     }
 
     fn errorCallback(
@@ -346,5 +346,6 @@ test "decode" {
     const test_file = @embedFile("../assets/center.flac");
     const decode_output = try decode(std.testing.allocator, test_file);
     defer std.testing.allocator.free(decode_output.samples);
-    try std.fs.cwd().writeFile("zig-out/decode_output.pcm", std.mem.sliceAsBytes(decode_output.samples));
+    const zig_out = try std.fs.cwd().makeOpenPath("zig-out", .{});
+    try zig_out.writeFile("decode_output.pcm", std.mem.sliceAsBytes(decode_output.samples));
 }
