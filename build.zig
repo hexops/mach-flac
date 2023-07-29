@@ -7,7 +7,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const libflac_dep = b.dependency("libFLAC", .{ .target = target, .optimize = optimize });
+    const libflac_dep = b.dependency("flac", .{ .target = target, .optimize = optimize });
 
     const main_test = b.addTest(.{
         .root_source_file = .{ .path = "src/lib.zig" },
