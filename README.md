@@ -7,6 +7,11 @@ Zig bindings to `libflac` - the battle-hardened official xiph.org C library for 
 
 ## Usage
 
+```
+zig build test
+ffplay -f s32le -ar 48000 -ac 2 zig-out/decode_output.pcm
+```
+
 See https://machengine.org/pkg/mach-flac
 
 ## Issues
