@@ -3,8 +3,8 @@
     .version = "0.0.0",
     .dependencies = .{
         .flac = .{
-            .url = "https://pkg.machengine.org/flac/233520157c4bc461b4c7f7a4d752d9e41e892baa.tar.gz",
-            .hash = "1220f9f73f8d6b8fbfadc746081502908211d847fd9232a850e55dc6a32b6f3104c5",
+            .url = "https://pkg.machengine.org/flac/73f6f0ca1bb01d5e09d765c833813fe7c1fb35bb.tar.gz",
+            .hash = "12204726f42c9d2963ac5e3a2f769dcd6adf503424e6fdc97c21eb11099cd0a89f36",
         },
     },
 }

@@ -16,7 +16,7 @@ pub fn build(b: *std.Build) void {
     });
     b.installArtifact(main_test);
     main_test.linkLibrary(libflac_dep.artifact("flac"));
-    main_test.main_pkg_path = ".";
+    main_test.main_pkg_path = .{ .path = "." };
 
     const test_step = b.step("test", "Run library tests");
     test_step.dependOn(&b.addRunArtifact(main_test).step);
