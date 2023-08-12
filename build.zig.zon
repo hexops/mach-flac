@@ -6,5 +6,13 @@
             .url = "https://pkg.machengine.org/flac/e6979f4620099840dab0f767d78ac5b88bb5d9af.tar.gz",
             .hash = "12203b3a3117181b36cf5e773c7aa168d384491491e7e9ecb38a23ba6ff659f97685",
         },
+        .mach_sysaudio = .{
+            .url = "https://pkg.machengine.org/mach-sysaudio/d91ad1ce67c64f561f3dab34415129d1aca6ef91.tar.gz",
+            .hash = "12202fe9409b44ea0f1b2212d1ae2259ea8e9ba9d1cccfffb91df83013694bbcb2cc",
+        },
+        .linux_audio_headers = .{
+            .url = "https://pkg.machengine.org/linux-audio-headers/7605fcefd39aa342518c60198f53f06cec7f8197.tar.gz",
+            .hash = "122035d7391b69192d9098a57e67173f0a7136b96963cc75d2d002f84bdf6cade7ea",
+        },
     },
 }
