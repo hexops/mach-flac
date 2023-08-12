@@ -16,16 +16,6 @@ pub const DecodeError = error{
     InvalidData,
 };
 
-pub fn decode(allocator: std.mem.Allocator, bytes: []const u8) DecodeError!Flac {
-    std.debug.assert(std.io.FixedBufferStream(u8).ReadError == error{});
-    var fbs = std.io.fixedBufferStream(bytes);
-    return decodeStream(allocator, std.io.StreamSource{ .const_buffer = fbs }) catch |err| switch (err) {
-        error.OutOfMemory => return error.OutOfMemory,
-        error.InvalidData => return error.InvalidData,
-        else => unreachable,
-    };
-}
-
 pub fn decodeStream(allocator: std.mem.Allocator, stream: std.io.StreamSource) (DecodeError || std.io.StreamSource.ReadError)!Flac {
     var data = Decoder{ .allocator = allocator, .stream = stream };
     var decoder = c.FLAC__stream_decoder_new() orelse return error.OutOfMemory;
@@ -341,11 +331,3 @@ const Encoder = struct {
         return c.FLAC__STREAM_ENCODER_TELL_STATUS_OK;
     }
 };
-
-test "decode" {
-    const test_file = @embedFile("../assets/center.flac");
-    const decode_output = try decode(std.testing.allocator, test_file);
-    defer std.testing.allocator.free(decode_output.samples);
-    const zig_out = try std.fs.cwd().makeOpenPath("zig-out", .{});
-    try zig_out.writeFile("decode_output.pcm", std.mem.sliceAsBytes(decode_output.samples));
-}
