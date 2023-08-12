@@ -32,8 +32,8 @@ pub fn build(b: *std.Build) void {
     //     .target = target,
     //     .optimize = optimize,
     // });
-    // example.addModule("flac", module);
-    // example.addModule("sysaudio", sysaudio.module(b, optimize, target));
+    // example.addModule("mach-flac", module);
+    // example.addModule("mach-sysaudio", sysaudio.module(b, optimize, target));
     // example.linkLibrary(libflac_dep.artifact("flac"));
     // sysaudio.link(b, example, .{});
     // b.installArtifact(example);

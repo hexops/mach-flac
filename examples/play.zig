@@ -1,6 +1,6 @@
 const std = @import("std");
-const sysaudio = @import("sysaudio");
-const Flac = @import("flac");
+const sysaudio = @import("mach-sysaudio");
+const Flac = @import("mach-flac");
 
 var file_decoded: Flac = undefined;
 var player: sysaudio.Player = undefined;
