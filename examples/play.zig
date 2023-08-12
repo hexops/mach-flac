@@ -23,7 +23,7 @@ pub fn main() !void {
         return error.InvalidDevice;
     }
 
-    player = try ctx.createPlayer(device, writeCallback, .{ .format = .i16 });
+    player = try ctx.createPlayer(device, writeCallback, .{ .format = .f32 });
     defer player.deinit();
     try player.start();
 
@@ -46,6 +46,8 @@ pub fn main() !void {
             try std.testing.expect(!player.paused());
         } else if (std.mem.eql(u8, cmd, "exit")) {
             break;
+        } else {
+            std.debug.print("valid commands: play, pause, exit, vol <float>; got '{s}'\n", .{cmd});
         }
     }
 }
