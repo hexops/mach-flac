@@ -16,6 +16,8 @@ jobs:
         run: zig build -Dtarget=aarch64-macos
       - name: build
         run: zig build
+      - name: test
+        run: zig build test
   x86_64-windows:
     runs-on: windows-latest
     steps:
@@ -30,6 +32,8 @@ jobs:
           Add-Content $env:GITHUB_PATH "C:\zig-windows-x86_64-0.11.0-dev.4410+76f7b40e1\"
       - name: build
         run: zig build
+      - name: test
+        run: zig build test
   x86_64-macos:
     runs-on: macos-latest
     steps:
@@ -41,3 +45,5 @@ jobs:
           sudo sh -c 'wget -c https://pkg.machengine.org/zig/zig-macos-x86_64-0.11.0-dev.4410+76f7b40e1.tar.xz -O - | tar -xJ --strip-components=1 -C /usr/local/bin'
       - name: build
         run: zig build
+      - name: test
+        run: zig build test
