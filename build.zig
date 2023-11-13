@@ -7,6 +7,8 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const module = b.addModule("mach-flac", .{ .source_file = .{ .path = "src/lib.zig" } });
 
+    const sysaudio_dep = b.dependency("mach_sysaudio", .{ .target = target, .optimize = optimize });
+
     const main_test = b.addTest(.{
         .root_source_file = .{ .path = "src/lib.zig" },
         .target = target,
@@ -25,10 +27,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     example.addModule("mach-flac", module);
-    example.addModule("mach-sysaudio", b.dependency("mach_sysaudio", .{
-        .target = target,
-        .optimize = optimize,
-    }).module("mach-sysaudio"));
+    example.addModule("mach-sysaudio", sysaudio_dep.module("mach-sysaudio"));
     link(b, example);
     sysaudio.link(b, example);
     b.installArtifact(example);
@@ -41,8 +40,6 @@ pub fn build(b: *std.Build) void {
 }
 
 pub fn link(b: *std.Build, step: *std.build.CompileStep) void {
-    step.linkLibrary(b.dependency("flac", .{
-        .target = step.target,
-        .optimize = step.optimize,
-    }).artifact("flac"));
+    const libflac_dep = b.dependency("flac", .{ .target = step.target, .optimize = step.optimize });
+    step.linkLibrary(libflac_dep.artifact("flac"));
 }
