@@ -202,55 +202,23 @@ pub const EncodeError = error{
     InvalidSampleRate,
 };
 
-/// TODO: encoder is super buggy and doesn't work yet
-pub fn encode(
-    allocator: std.mem.Allocator,
-    channels: u8,
-    bits_per_sample: u8,
-    sample_rate: u24,
-    samples: []const i32,
-    compression_level: ?u4,
-) EncodeError![]const u8 {
-    std.debug.assert(std.io.FixedBufferStream(u8).WriteError == error{NoSpaceLeft});
-    var buffer = try allocator.alloc(u8, samples.len);
-    errdefer allocator.free(buffer);
-    var fbs = std.io.fixedBufferStream(buffer);
-    encodeStream(
-        std.io.StreamSource{ .buffer = fbs },
-        channels,
-        bits_per_sample,
-        sample_rate,
-        samples,
-        compression_level,
-    ) catch |err| switch (err) {
-        error.OutOfMemory => return error.OutOfMemory,
-        error.SeekingFailed => return error.SeekingFailed,
-        error.InvalidSampleRate => return error.InvalidSampleRate,
-        error.NoSpaceLeft => unreachable,
-        else => unreachable,
-    };
-    buffer = try allocator.realloc(buffer, fbs.pos);
-    return buffer;
-}
-
-/// TODO: encoder is super buggy and doesn't work yet
+/// TODO: encoder is buggy and doesn't work yet (UB?)
 pub fn encodeStream(
     stream: std.io.StreamSource,
     channels: u8,
     bits_per_sample: u8,
     sample_rate: u24,
     samples: []const i32,
-    compression_level: ?u4,
+    compression_level: ?u8,
 ) (EncodeError || std.io.StreamSource.WriteError)!void {
-    std.debug.assert(bits_per_sample >= 4 and bits_per_sample <= 32);
-
     var data = Encoder{ .stream = stream };
     var encoder = c.FLAC__stream_encoder_new() orelse return error.OutOfMemory;
+    defer _ = c.FLAC__stream_encoder_delete(encoder);
 
     _ = c.FLAC__stream_encoder_set_channels(encoder, channels);
-    _ = c.FLAC__stream_encoder_set_bits_per_sample(encoder, 32);
+    _ = c.FLAC__stream_encoder_set_bits_per_sample(encoder, bits_per_sample);
     _ = c.FLAC__stream_encoder_set_sample_rate(encoder, sample_rate);
-    _ = c.FLAC__stream_encoder_set_total_samples_estimate(encoder, samples.len / channels);
+    _ = c.FLAC__stream_encoder_set_total_samples_estimate(encoder, samples.len);
     if (compression_level) |level| {
         std.debug.assert(level <= 8);
         _ = c.FLAC__stream_encoder_set_compression_level(encoder, level);
@@ -293,6 +261,8 @@ pub fn encodeStream(
             else => unreachable,
         }
     }
+
+    _ = c.FLAC__stream_encoder_finish(encoder);
 }
 
 const Encoder = struct {
