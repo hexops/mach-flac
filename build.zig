@@ -5,16 +5,27 @@ const sysaudio = @import("mach_sysaudio");
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-    const module = b.addModule("mach-flac", .{ .source_file = .{ .path = "src/lib.zig" } });
 
-    const sysaudio_dep = b.dependency("mach_sysaudio", .{ .target = target, .optimize = optimize });
+    const sysaudio_dep = b.dependency("mach_sysaudio", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    const flac_dep = b.dependency("flac", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const module = b.addModule("mach-flac", .{
+        .root_source_file = .{ .path = "src/lib.zig" },
+    });
+    module.linkLibrary(flac_dep.artifact("flac"));
 
     const main_test = b.addTest(.{
         .root_source_file = .{ .path = "src/lib.zig" },
         .target = target,
         .optimize = optimize,
     });
-    link(b, main_test);
+    addPaths(main_test);
     b.installArtifact(main_test);
 
     const test_step = b.step("test", "Run library tests");
@@ -26,10 +37,10 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    example.addModule("mach-flac", module);
-    example.addModule("mach-sysaudio", sysaudio_dep.module("mach-sysaudio"));
-    link(b, example);
-    sysaudio.link(b, example);
+    example.root_module.addImport("mach-flac", module);
+    example.root_module.addImport("mach-sysaudio", sysaudio_dep.module("mach-sysaudio"));
+    addPaths(example);
+    sysaudio.addPaths(example);
     b.installArtifact(example);
 
     const example_run_cmd = b.addRunArtifact(example);
@@ -39,7 +50,11 @@ pub fn build(b: *std.Build) void {
     example_run_step.dependOn(&example_run_cmd.step);
 }
 
-pub fn link(b: *std.Build, step: *std.build.CompileStep) void {
-    const libflac_dep = b.dependency("flac", .{ .target = step.target, .optimize = step.optimize });
-    step.linkLibrary(libflac_dep.artifact("flac"));
+pub fn addPaths(step: *std.Build.Step.Compile) void {
+    sysaudio.addPaths(step);
+}
+
+pub fn link(b: *std.Build, step: *std.Build.Step.Compile) void {
+    _ = b;
+    _ = step;
 }

@@ -18,7 +18,7 @@ pub const DecodeError = error{
 
 pub fn decodeStream(allocator: std.mem.Allocator, stream: std.io.StreamSource) (DecodeError || std.io.StreamSource.ReadError)!Flac {
     var data = Decoder{ .allocator = allocator, .stream = stream };
-    var decoder = c.FLAC__stream_decoder_new() orelse return error.OutOfMemory;
+    const decoder = c.FLAC__stream_decoder_new() orelse return error.OutOfMemory;
 
     switch (c.FLAC__stream_decoder_init_stream(
         decoder,
@@ -212,7 +212,7 @@ pub fn encodeStream(
     compression_level: ?u8,
 ) (EncodeError || std.io.StreamSource.WriteError)!void {
     var data = Encoder{ .stream = stream };
-    var encoder = c.FLAC__stream_encoder_new() orelse return error.OutOfMemory;
+    const encoder = c.FLAC__stream_encoder_new() orelse return error.OutOfMemory;
     defer _ = c.FLAC__stream_encoder_delete(encoder);
 
     _ = c.FLAC__stream_encoder_set_channels(encoder, channels);
