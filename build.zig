@@ -57,5 +57,5 @@ pub fn addPaths(step: *std.Build.Step.Compile) void {
 pub fn link(b: *std.Build, step: *std.Build.Step.Compile) void {
     _ = b;
     _ = step;
-    @panic("link(b, step) has been deprecated, use addPaths(step) instead")
+    @panic("link(b, step) has been deprecated, use addPaths(step) instead");
 }
