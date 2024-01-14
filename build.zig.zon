@@ -13,16 +13,16 @@
     },
     .dependencies = .{
         .flac = .{
-            .url = "https://pkg.machengine.org/flac/6df11b8a314fed1946be9f803f9af6cbb60c21e6.tar.gz",
-            .hash = "1220d42b299ce867c859cba01d4b4c4d539b460d522d80af84b2a71e3f0f49394013",
+            .url = "https://pkg.machengine.org/flac/7e763b09bda60074dddae5366edad9072e0aa312.tar.gz",
+            .hash = "12205b2f42c4ceb715709c4d86cb747fed72224e50ba9e92beeebc63378bec43b46e",
         },
         .mach_sysaudio = .{
-            .url = "https://pkg.machengine.org/mach-sysaudio/7736b88a31cfc9eb59cde3f97d76658eeaa81dd2.tar.gz",
-            .hash = "1220e298a52bb47dfb17ca01db57e0432da7968b38fcb92922145377560d76b6eada",
+            .url = "https://pkg.machengine.org/mach-sysaudio/56c71588835396c328a44e19f4b2cd998c7006bc.tar.gz",
+            .hash = "1220e2e6e4833cecc40b14a641cbf12353dfed001c008a6e05b5d12849808224b19a",
         },
         .linux_audio_headers = .{
-            .url = "https://pkg.machengine.org/linux-audio-headers/a239b310fe45bfc974c121be2c9908e51a0c027d.tar.gz",
-            .hash = "1220ceab34e6617e3ff7be14477b1aea34b6e091c1e4316406ce474fca2293af831a",
+            .url = "https://pkg.machengine.org/linux-audio-headers/302c41dc4ab5fa292c3062e9e0d26c7f62652740.tar.gz",
+            .hash = "1220dc84528a0e298467bec65ab158426306961f08e7555eab9eef684ef126893689",
         },
     },
 }
