@@ -1,15 +1,10 @@
 const std = @import("std");
 const builtin = @import("builtin");
-const sysaudio = @import("mach_sysaudio");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const sysaudio_dep = b.dependency("mach_sysaudio", .{
-        .target = target,
-        .optimize = optimize,
-    });
     const flac_dep = b.dependency("flac", .{
         .target = target,
         .optimize = optimize,
@@ -25,7 +20,6 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    sysaudio.addPaths(&main_test.root_module);
     b.installArtifact(main_test);
 
     const test_step = b.step("test", "Run library tests");
@@ -38,8 +32,6 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     example.root_module.addImport("mach-flac", module);
-    example.root_module.addImport("mach-sysaudio", sysaudio_dep.module("mach-sysaudio"));
-    sysaudio.addPaths(&example.root_module);
     b.installArtifact(example);
 
     const example_run_cmd = b.addRunArtifact(example);
