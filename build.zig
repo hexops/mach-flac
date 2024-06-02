@@ -11,12 +11,12 @@ pub fn build(b: *std.Build) void {
     });
 
     const module = b.addModule("mach-flac", .{
-        .root_source_file = .{ .path = "src/lib.zig" },
+        .root_source_file = b.path("src/lib.zig"),
     });
     module.linkLibrary(flac_dep.artifact("flac"));
 
     const main_test = b.addTest(.{
-        .root_source_file = .{ .path = "src/lib.zig" },
+        .root_source_file = b.path("src/lib.zig"),
         .target = target,
         .optimize = optimize,
     });
