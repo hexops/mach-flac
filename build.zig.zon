@@ -13,12 +13,12 @@
     },
     .dependencies = .{
         .flac = .{
-            .url = "https://pkg.machengine.org/flac/b557da42d99e051fcf81088589054ac5a722ee1c.tar.gz",
-            .hash = "12202f50f0f9689298e98050be34a5227b285495c4cfc0238e6c92ff3e3c0b090761",
+            .url = "https://pkg.machengine.org/flac/e5bc97de7708c1b4c70e15d4a72550265bd0b737.tar.gz",
+            .hash = "122032870794c2e643309626cddfaee648feb18aaeb39746592b89818678d2a59ba6",
         },
         .linux_audio_headers = .{
-            .url = "https://pkg.machengine.org/linux-audio-headers/55524472876fe73bac0dcaa11b38f92958751ad4.tar.gz",
-            .hash = "122042c20087cc1e40d24a61c9d725be36ac5914d6e87e1776cc3cfaecedbcc0be16",
+            .url = "https://pkg.machengine.org/linux-audio-headers/f3c7af67371ac8ccc1ba9c9401833b78ab7d7300.tar.gz",
+            .hash = "12205e969e48f38bcc1184c4ea41785b662d1c694fb31225406a871cf491a5bed31e",
         },
     },
 }
