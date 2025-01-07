@@ -150,12 +150,13 @@ const Decoder = struct {
 
         if (frame.*.header.channels == 3) {
             for (0..frame.*.header.blocksize) |i| {
-                const center = @divTrunc(buffer[2][i], 2);
-                const left = (buffer[0][i]) + center;
-                const right = (buffer[1][i]) + center;
+                const left = (buffer[0][i]);
+                const right = (buffer[1][i]);
+                const center = (buffer[2][i]);
                 data.samples[data.sample_index] = left;
                 data.samples[data.sample_index + 1] = right;
-                data.sample_index += 2;
+                data.samples[data.sample_index + 2] = center;
+                data.sample_index += 3;
             }
         } else {
             for (0..frame.*.header.blocksize) |i| {
@@ -176,10 +177,7 @@ const Decoder = struct {
         user_data: ?*anyopaque,
     ) callconv(.C) void {
         const data = @as(*Decoder, @ptrCast(@alignCast(user_data)));
-        data.channels = switch (metadata.*.data.stream_info.channels) {
-            3 => 2, // We'll drop the center channel and mix it with Left and Right channels
-            else => @intCast(metadata.*.data.stream_info.channels),
-        };
+        data.channels = @intCast(metadata.*.data.stream_info.channels);
         data.sample_rate = @intCast(metadata.*.data.stream_info.sample_rate);
         data.bits_per_sample = @intCast(metadata.*.data.stream_info.bits_per_sample);
         data.total_samples = @intCast(metadata.*.data.stream_info.total_samples);
