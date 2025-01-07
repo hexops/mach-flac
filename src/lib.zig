@@ -148,12 +148,11 @@ const Decoder = struct {
             }
         }
 
-        const shift_amount: u5 = @intCast(32 - data.bits_per_sample);
         if (frame.*.header.channels == 3) {
             for (0..frame.*.header.blocksize) |i| {
-                const center = @divExact(buffer[2][i] << shift_amount, 2);
-                const left = (buffer[0][i] << shift_amount) + center;
-                const right = (buffer[1][i] << shift_amount) + center;
+                const center = @divTrunc(buffer[2][i], 2);
+                const left = (buffer[0][i]) + center;
+                const right = (buffer[1][i]) + center;
                 data.samples[data.sample_index] = left;
                 data.samples[data.sample_index + 1] = right;
                 data.sample_index += 2;
@@ -162,7 +161,7 @@ const Decoder = struct {
             for (0..frame.*.header.blocksize) |i| {
                 for (0..data.channels) |ch| {
                     const sample = buffer[ch][i];
-                    data.samples[data.sample_index] = sample << shift_amount;
+                    data.samples[data.sample_index] = sample;
                     data.sample_index += 1;
                 }
             }
